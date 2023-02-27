@@ -1,0 +1,100 @@
+{%extends 'base.html'%}
+{%block body_block%}
+
+
+<div class="container">
+    <div class="col-lg-6 col-md-8 col-sm-8" style="margin-left:auto;margin-right:auto;">
+        <div class="col-3"></div>
+        {%for p in posts%}
+        <div class="">
+            <div class="shadow card">
+                <div class="card-body">
+
+                    {%if p.user%}
+                        <a href="{%url 'profileview' p.user.id %}">{{p.user}}</a>
+                    
+                    
+                    {%endif%}
+
+                    {%if p.user%}
+                    <img style="height: 40px; width: 40px;margin-left: 20px;" class=" rounded-circle"
+                        src="{{request.user.profile_pic.url}}" alt="">
+                    {%endif%}
+                </div>
+            </div>
+            <div class="shadow card mb-4">
+                {%if p.images%}
+                <a href="#!"><img class="card-img-top" src="{{p.images.url}}" alt="..." /></a>
+                {%endif%}
+                <div class="card-body">
+                    <h5 class="card-title">{{p.title}}</h5>
+                    <p class="card-text">{{p.uploaded_date}}</p>
+                    <h5 class="card-title">{{p.description}}</h5>
+                    
+                    
+                </div>
+                <div class="card-body">
+                    <div>
+                        {{p.num_likes.all.count}} likes
+                        <p class="card-text">
+                            
+                            <a href="{%url 'add-like' p.id %}"><i class="fa-regular fa-thumbs-up fa-2x"></i></a>
+
+                            <a href="{%url 'unlike' p.id %}"><i class="fa-regular fa-thumbs-down  fa-2x p-2"></i></a>
+                            
+                            
+                            <span>
+                                <a data-bs-toggle="collapse" href="#collapseExample{{p.id}}" role="button" aria-expanded="false"
+                                    aria-controls="collapseExample{{p.id}}"><i class="fa-regular fa-comment fa-2x"></i>
+                                </a>
+                            </span>
+                        </p>   
+                    </div>
+                </div>
+                
+
+                <div class="collapse" id="collapseExample{{p.id}}">
+                    <div class="card card-body">
+                        <form action="{%url 'comment' p.id%}" method="post">
+                            {%csrf_token%}
+                            {{cform.as_p}}
+                            <div class="text-center mb-2">
+                                <input type="submit" value="Post">
+                            </div>
+                        </form>
+                    </div>
+                    {%for c in comment%}
+                    {%if p.id == c.post_id%}
+                    <div class="shadow-sm card mt-2 mb-4 w-75 p-3" style="margin: auto;">
+                        <div class="d-flex flex-row align-items-center">
+                            <img style="margin-left: 20px;" alt="avatar" width="25" height="25"class="rounded-circle"
+                                src="{{p.profile_pic.url}}">
+                                <p class="small mb-0 ms-2">{{c.user}}</p>       
+                        </div>
+                        
+                    
+                            <div class="d-flex justify-content-between">
+                                <div class="card-body">
+                                    <p>{{c.comment}}</p>
+                                </div>
+                                <div class="d-flex flex-row align-items-center">
+                                    <p class="small text-muted mb-0">Upvote?</p>
+                                    <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+                                    <p class="small text-muted mb-0">3</p>
+                                </div>
+                            </div>
+                            </div>
+                    {%endif%}
+                    {%endfor%}
+                </div>
+            </div>
+
+            
+
+
+        {%endfor%}
+            <div class="col-3"></div>
+        </div>
+    </div>
+
+    {%endblock%}

@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+{%block body_block%}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6 mb-5">
+            <p class="text-center">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Add Post
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div  class="card card-body">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {%csrf_token%}
+                        {{form.as_p}}
+                        <div class="text-center mt-4">
+                            <input type="submit" value="Post">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+{%endblock%}
